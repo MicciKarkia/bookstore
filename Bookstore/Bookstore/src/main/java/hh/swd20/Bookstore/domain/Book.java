@@ -1,5 +1,7 @@
 package hh.swd20.Bookstore.domain;
 
+import java.time.Year;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,7 +18,13 @@ public class Book {
 	private String isbn;
 	private double price;
 	
-	protected Book() {}
+	public Book() {
+		this.title = "";
+		this.author = "";
+		this.year = Year.now().getValue();
+		this.isbn = "";
+		this.price = 0.0;
+	}
 
 	public Book(String title, String author, int year, String isbn, double price) {
 		super();
