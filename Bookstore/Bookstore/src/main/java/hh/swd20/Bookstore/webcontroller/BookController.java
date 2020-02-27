@@ -18,13 +18,13 @@ public class BookController {
 private BookRepository bookRepository;
 	
 	@RequestMapping(value="/booklist")
-	public String bookList(Model model) {
+	public String getAllBooks(Model model) {
 		model.addAttribute("books", bookRepository.findAll());
 		return "booklist";
 	}
 	
 	@RequestMapping(value="/add")
-	public String addBook(Model model) {
+	public String getNewForm(Model model) {
 		model.addAttribute("book", new Book());
 		return "addbook";
 	}
@@ -36,10 +36,17 @@ private BookRepository bookRepository;
 	}
 	
 	@RequestMapping(value="/delete/{id}", method=RequestMethod.GET)
-	public String deleteBook(@PathVariable("id")Long bookId, Model model) {
+	public String delete(@PathVariable("id")Long bookId, Model model) {
 		bookRepository.deleteById(bookId);
 		return "redirect:../booklist";
 	}
+	
+	@RequestMapping(value="/edit/{id}")
+	public String getEditForm(@PathVariable("id")Long bookId, Model model) {
+		model.addAttribute("book", bookRepository.findById(bookId));
+		return "editbook";
+	}
+	
 	
 	@GetMapping("/index")
 	public String allBooksView() {
