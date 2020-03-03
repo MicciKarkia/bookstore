@@ -1,23 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <title>Edit</title>
 </head>
 <body>
-	<form th:object="${book}" th:action="@{../save}" action="#" method="post">
-		<input type="hidden" th:field="*{id}" class="form-control" />
-		<label for="author">Author</label>
-		<input type="text" th:field="*{author}" />
-		<label for="title">Title</label>
-		<input type="text" th:field="*{title}" />
-		<label for="isbn">ISBN</label>
-		<input type="text" th:field="*{isbn}" />
-		<label for="year">Year</label>
-		<input type="text" th:field="*{year}" />
-		<label for="price">Price</label>
-		<input type="text" th:field="*{price}" />
-		<input type="submit" class="btn btn success" value="Save"></input>
-	</form>
+	<h1>Edit</h1>
+	<div class="col-xs-4">
+		<form th:object="${book}" th:action="@{../save}" action="#"
+			method="post">
+			<div class="form-group">
+				<input type="hidden" th:field="*{id}" class="form-control" />
+			</div>
+			<div class="form-group">
+				<label for="author">Author:</label> <input type="text"
+					class="form-control" th:field="*{author}" />
+			</div>
+			<div class="form-group">
+				<label for="title">Title:</label> <input type="text"
+					class="form-control" th:field="*{title}" />
+			</div>
+			<div class="form-group">
+				<label for="isbn">ISBN:</label> <input type="text"
+					class="form-control" th:field="*{isbn}" />
+			</div>
+			<div class="form-group">
+				<label for="year">Year:</label> <input type="text"
+					class="form-control" th:field="*{year}" />
+			</div>
+			<div class="form-group">
+				<label for="catlist">Category:</label> <select id="catlist"
+					th:field="*{category}" class="form-control">
+					<option th:each="category: ${categories}"
+						th:value="${category.categoryid}" th:text="${category.name}">
+					</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="price">Price:</label> <input type="text"
+					class="form-control" th:field="*{price}" />
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Save" class="btn btn-success"></input>
+			</div>
+		</form>
+		<a href="/cancel" class="btn btn-link">Return without changes</a>
+	</div>
 </body>
 </html>
