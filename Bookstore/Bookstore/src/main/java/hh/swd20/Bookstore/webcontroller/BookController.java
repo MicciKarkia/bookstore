@@ -8,13 +8,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import hh.swd20.Bookstore.domain.Book;
 import hh.swd20.Bookstore.domain.BookRepository;
 import hh.swd20.Bookstore.domain.CategoryRepository;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class BookController {
+	//Kaksi eri kytkentää tarvitaan, koska haetaan kahdesta eri paikasta
 	@Autowired
 	private BookRepository bookRepository;
 	@Autowired
@@ -24,6 +28,18 @@ public class BookController {
 	public String getAllBooks(Model model) {
 		model.addAttribute("books", bookRepository.findAll());
 		return "booklist";
+	}
+	
+	//REST service to get all books
+	@RequestMapping(value="/books", method = RequestMethod.GET)
+	public @ResponseBody List<Book> bookListRest() {
+		return (List<Book>) bookRepository.findAll();
+	}
+	
+	//REST service to get book by id
+	@RequestMapping(value="/book/{id}", method = RequestMethod.GET)
+	public @ResponseBody Optional<Book> findBookRest(@PathVariable("id") Long bookId) {
+		return bookRepository.findById(bookId);
 	}
 
 	@RequestMapping(value = "/add")

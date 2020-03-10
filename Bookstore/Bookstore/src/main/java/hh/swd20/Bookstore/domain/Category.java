@@ -16,6 +16,7 @@ public class Category {
 	private Long categoryid;
 	private String name;
 	
+	//Cascade liittyy siihen että jos poistaa kategorian, myös siihen kuuluvat kirjat poistuu
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
 	private List<Book> books;
 	
