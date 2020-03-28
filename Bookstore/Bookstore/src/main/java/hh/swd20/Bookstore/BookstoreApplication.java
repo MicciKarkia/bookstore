@@ -3,14 +3,18 @@ package hh.swd20.Bookstore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import hh.swd20.Bookstore.domain.Book;
-import hh.swd20.Bookstore.domain.BookRepository;
-import hh.swd20.Bookstore.domain.Category;
-import hh.swd20.Bookstore.domain.CategoryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+
+import hh.swd20.Bookstore.domain.Book;
+import hh.swd20.Bookstore.domain.BookRepository;
+import hh.swd20.Bookstore.domain.Category;
+import hh.swd20.Bookstore.domain.CategoryRepository;
+
+import hh.swd20.Bookstore.domain.User;
+import hh.swd20.Bookstore.domain.UserRepository;
 
 @SpringBootApplication
 public class BookstoreApplication {
@@ -21,7 +25,7 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner demo(CategoryRepository cRepository, BookRepository bRepository) {
+	public CommandLineRunner demo(CategoryRepository cRepository, BookRepository bRepository, UserRepository urepository) {
 		return (args) -> {
 			log.info("save some categories");
 			cRepository.save(new Category("Sci-fi"));
@@ -47,6 +51,12 @@ public class BookstoreApplication {
 			bRepository.save(new Book("Harry Potter och fången från Azkaban", "J.K. Rowling", 2019, "9789129723953",
 					20.80, cRepository.findByName("Fantasy").get(0)));
 
+			// Create users: admin/admin user/user
+						User user1 = new User("user", "$2a$12$shRzO8/r7NU7zYsbpL/snOX9.5VgmH9o.qvHjC59M4nEHsR04a5kC", "user@user.com", "USER");
+						User user2 = new User("admin", "$2a$12$JJzbNkAplfkyqSEmVSCjeuGyluOumid0h7MtaNKC/MRgRAv9mC72.", "admin@admin.com", "ADMIN");
+						urepository.save(user1);
+						urepository.save(user2);
+			
 			log.info("fetch all books");
 			for (Book book : bRepository.findAll()) {
 				log.info(book.toString());
