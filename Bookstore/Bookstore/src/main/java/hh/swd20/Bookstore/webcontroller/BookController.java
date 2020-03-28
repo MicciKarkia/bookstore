@@ -1,6 +1,7 @@
 package hh.swd20.Bookstore.webcontroller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 
@@ -23,6 +24,11 @@ public class BookController {
 	private BookRepository bookRepository;
 	@Autowired
 	private CategoryRepository categoryrepository;
+	
+	@RequestMapping(value = "/login")
+	public String login() {
+		return "login";
+	}
 
 	@RequestMapping(value = "/booklist")
 	public String getAllBooks(Model model) {
@@ -56,6 +62,7 @@ public class BookController {
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+	@PreAuthorize("hasRole('ADMIN')")
 	public String delete(@PathVariable("id") Long bookId, Model model) {
 		bookRepository.deleteById(bookId);
 		return "redirect:../booklist";
@@ -73,7 +80,7 @@ public class BookController {
 		return "redirect:booklist";
 	}
 
-	@GetMapping("/index")
+	@GetMapping("/")
 	public String allBooksView() {
 		return "bookstore";
 	}
